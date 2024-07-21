@@ -6,7 +6,6 @@ use argon2::{
     Argon2,
 };
 use std::mem;
-use sqlx_db_tester::TestPg;
 
 impl User {
     // find user by email
@@ -111,7 +110,7 @@ mod tests {
     #[tokio::test]
     async fn create_and_verify_user_should_work() -> Result<()> {
         let tdb = TestPg::new(
-            "postgres://postgres:postgres@localhost:5432".to_string(),
+            "postgres://xavier:Haishen.123@localhost:5432".to_string(),
             Path::new("../migrations"),
         );
         let pool = tdb.get_pool().await;
