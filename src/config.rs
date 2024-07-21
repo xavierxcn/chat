@@ -15,9 +15,9 @@ impl AppConfig {
             File::open("/etc/config/app.yml"),
             env::var("CHAT_CONFIG_PATH"),
         ) {
-            (Ok(file), _, _) => serde_yaml::from_reader(file),
-            (_,Ok(file), _) => serde_yaml::from_reader(file),
-            (_, _, Some(path)) => serde_yaml::from_reader(File::open(path.as_str())?),
+            (Ok(reader), _, _) => serde_yaml::from_reader(reader),
+            (_, Ok(reader), _) => serde_yaml::from_reader(reader),
+            (_, _, Ok(path)) => serde_yaml::from_reader(File::open(path)?),
             _ => bail!("Config file not found"),
         };
 
@@ -27,6 +27,5 @@ impl AppConfig {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ServerConfig {
-    pub host: String,
     pub port: u16,
 }
